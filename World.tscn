@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://World/CliffTileset.png" type="Texture" id=5]
 [ext_resource path="res://World/Grass.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=7]
+[ext_resource path="res://UI/HealthUI.tscn" type="PackedScene" id=8]
+[ext_resource path="res://World/Tree.tscn" type="PackedScene" id=9]
 
 [sub_resource type="TileSet" id=1]
 0/name = "DirtTileset.png 0"
@@ -485,10 +487,11 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 [node name="World" type="Node2D"]
 
 [node name="Background" type="Sprite" parent="."]
-position = Vector2( 160, 88 )
+position = Vector2( 160, 92 )
+scale = Vector2( 1, 1.02222 )
 texture = ExtResource( 3 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 320, 180 )
+region_rect = Rect2( 0, 0, 656, 352 )
 
 [node name="DirtMapTileMap" type="TileMap" parent="."]
 tile_set = SubResource( 1 )
@@ -503,10 +506,27 @@ collision_mask = 0
 format = 1
 tile_data = PoolIntArray( -65528, 0, 0, -65527, 0, 1, -65526, 0, 2, 8, 0, 131072, 9, 0, 65542, 10, 0, 65538, 65537, 0, 3, 65545, 0, 131072, 65546, 0, 131074, 131072, 0, 196608, 131073, 0, 196616, 131074, 0, 7, 196610, 0, 131075, 196617, 0, 3, 262153, 0, 131076, 262154, 0, 2, 327680, 0, 196611, 327685, 0, 3, 327688, 0, 196608, 327689, 0, 262150, 327690, 0, 65538, 393221, 0, 131075, 393225, 0, 131072, 393226, 0, 131074 )
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 176, 24 )
+current = true
+smoothing_enabled = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HealthUI" parent="CanvasLayer" instance=ExtResource( 8 )]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 72.0
+margin_bottom = 24.0
+
 [node name="YSort" type="YSort" parent="."]
 
 [node name="Player" parent="YSort" instance=ExtResource( 2 )]
 position = Vector2( 176, 24 )
+ROLL_SPEED = 85
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="YSort/Player"]
+remote_path = NodePath("../../../Camera2D")
 
 [node name="Grass" type="YSort" parent="YSort"]
 
@@ -540,7 +560,7 @@ position = Vector2( 16, 96 )
 [node name="Bushes" type="YSort" parent="YSort"]
 
 [node name="Bush" parent="YSort/Bushes" instance=ExtResource( 1 )]
-position = Vector2( 48, 24 )
+position = Vector2( 16, 56 )
 
 [node name="Bush2" parent="YSort/Bushes" instance=ExtResource( 1 )]
 position = Vector2( 264, 120 )
@@ -552,7 +572,18 @@ position = Vector2( 264, 40 )
 position = Vector2( 272, 56 )
 
 [node name="Bush5" parent="YSort/Bushes" instance=ExtResource( 1 )]
-position = Vector2( 176, 136 )
+position = Vector2( 152, 152 )
+
+[node name="Trees" type="YSort" parent="YSort"]
+
+[node name="Tree" parent="YSort/Trees" instance=ExtResource( 9 )]
+position = Vector2( 176, 152 )
+
+[node name="Tree3" parent="YSort/Trees" instance=ExtResource( 9 )]
+position = Vector2( 48, 24 )
+
+[node name="Tree2" parent="YSort/Trees" instance=ExtResource( 9 )]
+position = Vector2( 16, 152 )
 
 [node name="Bat" parent="YSort" instance=ExtResource( 7 )]
 position = Vector2( 64, 144 )
@@ -564,4 +595,4 @@ position = Vector2( 304, 80 )
 position = Vector2( 224, 184 )
 
 [node name="Bat4" parent="YSort" instance=ExtResource( 7 )]
-position = Vector2( 16, 40 )
+position = Vector2( 16, 48 )
